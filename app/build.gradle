@@ -29,5 +29,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.jakewharton:butterknife:8.2.1' //添加这行
     apt 'com.jakewharton:butterknife-compiler:8.2.1' //添加这行
+    compile 'org.xutils:xutils:3.3.42'
     testCompile 'junit:junit:4.12'
 }
