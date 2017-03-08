@@ -7,18 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.LogUtils;
+
+import org.xutils.x;
+
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.bean.BeautifulGirls;
+
 
 /**
  * Created by hehaitao01 on 2017/3/7.
  */
 
-public class GridAdapter extends RecyclerView.Adapter implements View.OnClickListener,View.OnLongClickListener{
+public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> implements View.OnClickListener,View.OnLongClickListener{
 
     private Context mContext;
     private List<BeautifulGirls.ResultsBean> datas;
@@ -36,10 +39,11 @@ public class GridAdapter extends RecyclerView.Adapter implements View.OnClickLis
     public GridAdapter(Context mContext, List<BeautifulGirls.ResultsBean> datas) {
         this.mContext = mContext;
         this.datas = datas;
+        LogUtils.d("hht","init adapter");
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext
         ).inflate(R.layout.layout_item_img, parent,
                 false);//这个布局就是一个imageview用来显示图片
@@ -48,20 +52,25 @@ public class GridAdapter extends RecyclerView.Adapter implements View.OnClickLis
         //给布局设置点击和长点击监听
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
+        LogUtils.d("hht","init view");
 
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
 
         if(holder instanceof MyViewHolder){
+            LogUtils.d("hht",datas.get(position).getUrl());
             //加载图片
+           x.image().bind(((MyViewHolder) holder).img,datas.get(position).getUrl());
+           // ImageRequestManager.getRequest().display(mContext,((MyViewHolder) holder).img,datas.get(position).getUrl(), ConvertUtils.dp2px(80),ConvertUtils.dp2px(80),false);
         }
     }
 
     @Override
     public int getItemCount() {
+        LogUtils.d("hht",datas.size());
         return datas.size();
     }
 
@@ -82,12 +91,10 @@ public class GridAdapter extends RecyclerView.Adapter implements View.OnClickLis
     }
 
     class  MyViewHolder extends RecyclerView.ViewHolder{
-
-        @BindView(R.id.img_item)
-        private ImageView img;
+        ImageView img;
         public MyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+           img = (ImageView) itemView.findViewById(R.id.img_item);
         }
     }
 }

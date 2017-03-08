@@ -2,6 +2,8 @@ package gank.heht.com.mygankapplication.application;
 
 import android.app.Application;
 
+import com.blankj.utilcode.utils.Utils;
+
 import org.xutils.BuildConfig;
 import org.xutils.x;
 
@@ -16,5 +18,6 @@ public class GankApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
+        Utils.init(getApplicationContext());//初始化开源工具类
     }
 }

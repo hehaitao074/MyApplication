@@ -187,5 +187,21 @@ public class BeautifulGirls {
                 return new ResultsBean[size];
             }
         };
+
+        @Override
+        public String toString() {
+            return "ResultsBean{" +
+                    "_id='" + _id + '\'' +
+                    ", createdAt='" + createdAt + '\'' +
+                    ", desc='" + desc + '\'' +
+                    ", publishedAt='" + publishedAt + '\'' +
+                    ", source='" + source + '\'' +
+                    ", type='" + type + '\'' +
+                    ", url='" + url + '\'' +
+                    ", used=" + used +
+                    ", who='" + who + '\'' +
+                    ", images=" + images +
+                    '}';
+        }
     }
 }
