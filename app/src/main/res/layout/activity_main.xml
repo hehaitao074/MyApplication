@@ -5,23 +5,16 @@
     android:id="@+id/grid_coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    tools:context="gank.heht.com.mygankapplication.view.MainActivity">
+    android:background="@android:color/white"
+    tools:context="gank.heht.com.mygankapplication.activity.MainActivity">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refreshlayout"
+    <gank.heht.com.mygankapplication.view.PullRefreshRecyclerView
+        android:id="@+id/pullrefresh_recycleview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <!--本文主角-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/grid_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </gank.heht.com.mygankapplication.view.PullRefreshRecyclerView>
 
 
 </LinearLayout>

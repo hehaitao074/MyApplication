@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.blankj.utilcode.utils.LogUtils;
-
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     public GridAdapter(Context mContext, List<BeautifulGirls.ResultsBean> datas) {
         this.mContext = mContext;
         this.datas = datas;
-        LogUtils.d("hht","init adapter");
+
     }
 
     @Override
@@ -48,12 +47,9 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
         ).inflate(R.layout.layout_item_img, parent,
                 false);//这个布局就是一个imageview用来显示图片
         MyViewHolder holder = new MyViewHolder(view);
-
         //给布局设置点击和长点击监听
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
-        LogUtils.d("hht","init view");
-
         return holder;
     }
 
@@ -61,16 +57,15 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         if(holder instanceof MyViewHolder){
-            LogUtils.d("hht",datas.get(position).getUrl());
             //加载图片
-           x.image().bind(((MyViewHolder) holder).img,datas.get(position).getUrl());
+            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(90,120).build();
+           x.image().bind(((MyViewHolder) holder).img,datas.get(position).getUrl(),imageOptions);
            // ImageRequestManager.getRequest().display(mContext,((MyViewHolder) holder).img,datas.get(position).getUrl(), ConvertUtils.dp2px(80),ConvertUtils.dp2px(80),false);
         }
     }
 
     @Override
     public int getItemCount() {
-        LogUtils.d("hht",datas.size());
         return datas.size();
     }
 
