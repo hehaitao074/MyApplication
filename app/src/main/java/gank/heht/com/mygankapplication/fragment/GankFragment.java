@@ -1,10 +1,12 @@
-package gank.heht.com.mygankapplication.activity;
+package gank.heht.com.mygankapplication.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.blankj.utilcode.utils.LogUtils;
 
@@ -20,16 +22,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
+import gank.heht.com.mygankapplication.activity.SpaceImageDetailActivity;
 import gank.heht.com.mygankapplication.adapter.GridAdapter;
 import gank.heht.com.mygankapplication.bean.BeautifulGirls;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
 
+/**
+ * Created by hehaitao01 on 2017/3/9.
+ */
 
-public class MainActivity extends AppCompatActivity implements PullRefreshRecyclerView.RefreshLoadMoreListener {
-
-
-
+public class GankFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
     @BindView(R.id.pullrefresh_recycleview)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
@@ -39,13 +42,17 @@ public class MainActivity extends AppCompatActivity implements PullRefreshRecycl
     private List<BeautifulGirls.ResultsBean> datas = new ArrayList<>();
     String urlStr="";
 
+    private String mTitle;
+
+    public static GankFragment getInstance(String title) {
+        GankFragment sf = new GankFragment();
+        sf.mTitle = title;
+        return sf;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);//黄油刀的使用
-        initView();
         try {
             url.append(URLEncoder.encode("福利", "utf-8"));
             url.append("/10/");
@@ -54,25 +61,31 @@ public class MainActivity extends AppCompatActivity implements PullRefreshRecycl
             e.printStackTrace();
         }
         urlStr = url.toString();
-        refreshData(urlStr+page);
-
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_gank, null);
+        ButterKnife.bind(this,v);
+        initView();
+        refreshData(urlStr+page);
+        return v;
+    }
 
     private void initView() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setGridLayout(2);
-        gridAdapter = new GridAdapter(MainActivity.this, datas);
+        gridAdapter = new GridAdapter(getActivity(), datas);
         pullRefreshRecyclerView.setAdapter(gridAdapter);//recyclerview设置适配器
         //实现适配器自定义的点击监听
         gridAdapter.setOnRecyclerViewItemClickListener(new GridAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SpaceImageDetailActivity.class);
+                Intent intent = new Intent(getActivity(), SpaceImageDetailActivity.class);
                 int position = pullRefreshRecyclerView.getChildAdapterPosition(view);
                 intent.putExtra("url", datas.get(position).getUrl());
                 startActivity(intent);
-                overridePendingTransition(0, 0);
+                getActivity().overridePendingTransition(0, 0);
 
             }
 

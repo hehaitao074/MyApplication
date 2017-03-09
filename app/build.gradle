@@ -25,17 +25,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     //添加这行
     //添加这行
+
     compile 'com.android.support:design:24.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'org.xutils:xutils:3.3.42'
     compile 'com.blankj:utilcode:1.3.6'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.github.chrisbanes.photoview:library:+'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-    compile 'com.github.chrisbanes.photoview:library:+'
-
 }
