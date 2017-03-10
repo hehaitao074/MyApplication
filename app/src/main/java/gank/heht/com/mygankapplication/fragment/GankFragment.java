@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.SpaceImageDetailActivity;
 import gank.heht.com.mygankapplication.adapter.GridAdapter;
-import gank.heht.com.mygankapplication.bean.BeautifulGirls;
+import gank.heht.com.mygankapplication.bean.InfoBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
 
@@ -33,13 +33,13 @@ import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
  */
 
 public class GankFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
-    @BindView(R.id.pullrefresh_recycleview)
+    @BindView(R.id.pullrefresh_recycleview_gank)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
     GridAdapter gridAdapter = null;
     private int page = 1;
     StringBuilder url = new StringBuilder("http://gank.io/api/data/");
-    private List<BeautifulGirls.ResultsBean> datas = new ArrayList<>();
+    private List<InfoBean.ResultsBean> datas = new ArrayList<>();
     String urlStr="";
 
     private String mTitle;
@@ -122,9 +122,8 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {                    //数据解析
-                    BeautifulGirls beautifulGirls = GsonUtil.GsonToBean(result, BeautifulGirls.class);
-                    datas.addAll(beautifulGirls.getResults());
-                    LogUtils.d("hht",datas.toString());
+                    InfoBean infoBean = GsonUtil.GsonToBean(result, InfoBean.class);
+                    datas.addAll(infoBean.getResults());
                     //让适配器刷新数据
                     gridAdapter.notifyDataSetChanged();
                 }

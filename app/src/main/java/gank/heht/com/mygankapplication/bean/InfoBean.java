@@ -9,7 +9,7 @@ import java.util.List;
  * Created by hehaitao01 on 2017/3/7.
  */
 
-public class BeautifulGirls {
+public class InfoBean {
 
 
     /**

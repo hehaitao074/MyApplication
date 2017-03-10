@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_gank"
+    android:id="@+id/layout_ios"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
 
     <gank.heht.com.mygankapplication.view.PullRefreshRecyclerView
-        android:id="@+id/pullrefresh_recycleview_gank"
+        android:id="@+id/pullrefresh_recycleview_ios"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

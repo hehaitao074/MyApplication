@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
+import gank.heht.com.mygankapplication.fragment.AndroidFragment;
 import gank.heht.com.mygankapplication.fragment.GankFragment;
+import gank.heht.com.mygankapplication.fragment.IosFragment;
+import gank.heht.com.mygankapplication.fragment.WebFragment;
 
 public class TabMainActivity extends AppCompatActivity implements OnTabSelectListener {
 
@@ -36,14 +39,21 @@ public class TabMainActivity extends AppCompatActivity implements OnTabSelectLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_main);
         ButterKnife.bind(this);
-        for (String title : mTitles) {
-            mFragments.add(GankFragment.getInstance(title));
-        }
+
+        initFragment();
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
         tabLayout_1.setViewPager(viewPager,mTitles);
         tabLayout_1.setOnTabSelectListener(this);
         viewPager.setCurrentItem(0);
+
+    }
+
+    private void initFragment(){
+        mFragments.add(new GankFragment());
+        mFragments.add(new IosFragment());
+        mFragments.add(new AndroidFragment());
+        mFragments.add(new WebFragment());
 
     }
 
