@@ -13,16 +13,16 @@ import org.xutils.x;
 import java.util.List;
 
 import gank.heht.com.mygankapplication.R;
-import gank.heht.com.mygankapplication.bean.InfoBean;
+import gank.heht.com.mygankapplication.bean.HuaBanMeiziInfo;
 
 
 /**
  * Created by hehaitao01 on 2017/3/7.
  */
 
-public class GridAdapter extends BaseAdapter {
+public class HuaBanGridAdapter extends BaseAdapter <HuaBanMeiziInfo>{
 
-    public GridAdapter(Context mContext, List<InfoBean.ResultsBean> datas) {
+    public HuaBanGridAdapter(Context mContext, List<HuaBanMeiziInfo> datas) {
         super(mContext, datas);
 
     }
@@ -43,10 +43,10 @@ public class GridAdapter extends BaseAdapter {
     public void onBindViewHolder( RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof MyViewHolder) {
-            InfoBean.ResultsBean resultsBean = datas.get(position);
+            HuaBanMeiziInfo resultsBean = datas.get(position);
             //加载图片
             ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
-            x.image().bind(((MyViewHolder) holder).img, resultsBean.getUrl(), imageOptions);
+            x.image().bind(((MyViewHolder) holder).img, resultsBean.getThumb(), imageOptions);
 
         }
     }

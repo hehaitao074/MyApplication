@@ -14,8 +14,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,8 @@ import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.SpaceImageDetailActivity;
 import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
-import gank.heht.com.mygankapplication.bean.InfoBean;
+import gank.heht.com.mygankapplication.adapter.TaoGridAdapter;
+import gank.heht.com.mygankapplication.bean.TaoNvListBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
 
@@ -32,20 +31,20 @@ import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
  * Created by hehaitao01 on 2017/3/9.
  */
 
-public class GankFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
+public class TaoNvFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
     @BindView(R.id.pullrefresh_recycleview_gank)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
-    GankGridAdapter gridAdapter = null;
+    TaoGridAdapter gridAdapter = null;
     private int page = 1;
-    StringBuilder url = new StringBuilder("http://gank.io/api/data/");
-    private List<InfoBean.ResultsBean> datas = new ArrayList<>();
+    StringBuilder url = new StringBuilder("http://route.showapi.com/126-2?showapi_appid=15314&showapi_sign=d424376f51f1467da1b8c75debebf148&page=");
+    private List<TaoNvListBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> datas = new ArrayList<>();
     String urlStr="";
 
     private String mTitle;
 
-    public static GankFragment getInstance(String title) {
-        GankFragment sf = new GankFragment();
+    public static TaoNvFragment getInstance(String title) {
+        TaoNvFragment sf = new TaoNvFragment();
         sf.mTitle = title;
         return sf;
     }
@@ -53,13 +52,6 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            url.append(URLEncoder.encode("福利", "utf-8"));
-            url.append("/10/");
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         urlStr = url.toString();
     }
 
@@ -75,7 +67,7 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
     private void initView() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setGridLayout(2);
-        gridAdapter = new GankGridAdapter(getActivity(), datas);
+        gridAdapter = new TaoGridAdapter(getActivity(), datas);
         pullRefreshRecyclerView.setAdapter(gridAdapter);//recyclerview设置适配器
         //实现适配器自定义的点击监听
         gridAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
@@ -84,7 +76,7 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
                 Intent intent = new Intent(getActivity(), SpaceImageDetailActivity.class);
                 int position = pullRefreshRecyclerView.getChildAdapterPosition(view);
                 ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(datas.get(position).getUrl());
+                imgList.addAll(datas.get(position).getImgList());
                 intent.putStringArrayListExtra("imgList", imgList);
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
@@ -102,12 +94,12 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
     public void onRefresh() {
         page = 1;
         datas.clear();
-        refreshData(urlStr + page);
+        refreshData(urlStr+page);
     }
 
     @Override
     public void onLoadMore() {
-        refreshData(urlStr + (++page));
+       refreshData(urlStr + (++page));
         LogUtils.d("page", page);
     }
 
@@ -123,9 +115,9 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                if (!TextUtils.isEmpty(result)) {                    //数据解析
-                    InfoBean infoBean = GsonUtil.GsonToBean(result, InfoBean.class);
-                    datas.addAll(infoBean.getResults());
+                if (!TextUtils.isEmpty(result)) {
+                    TaoNvListBean infoBean = GsonUtil.GsonToBean(result, TaoNvListBean.class);
+                   datas.addAll(infoBean.getShowapi_res_body().getPagebean().getContentlist());
                     //让适配器刷新数据
                     gridAdapter.notifyDataSetChanged();
                 }
@@ -135,7 +127,7 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                LogUtils.d("hht", ex.getMessage());
+                LogUtils.d("debug", ex.getMessage()+"咋了");
             }
 
             @Override

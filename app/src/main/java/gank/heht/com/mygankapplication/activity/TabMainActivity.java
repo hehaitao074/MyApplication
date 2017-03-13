@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.fragment.AndroidFragment;
-import gank.heht.com.mygankapplication.fragment.GankFragment;
 import gank.heht.com.mygankapplication.fragment.IosFragment;
+import gank.heht.com.mygankapplication.fragment.MeiTuFragment;
 import gank.heht.com.mygankapplication.fragment.WebFragment;
 
 public class TabMainActivity extends AppCompatActivity implements OnTabSelectListener {
@@ -50,7 +50,7 @@ public class TabMainActivity extends AppCompatActivity implements OnTabSelectLis
     }
 
     private void initFragment(){
-        mFragments.add(new GankFragment());
+        mFragments.add(new MeiTuFragment());
         mFragments.add(new IosFragment());
         mFragments.add(new AndroidFragment());
         mFragments.add(new WebFragment());

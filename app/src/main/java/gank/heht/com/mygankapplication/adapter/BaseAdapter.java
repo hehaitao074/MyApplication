@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import gank.heht.com.mygankapplication.bean.InfoBean;
-
 
 /**
  * Created by hehaitao01 on 2017/3/7.
  */
 
-public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener,View.OnLongClickListener{
+public class BaseAdapter <T>extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener,View.OnLongClickListener{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
@@ -26,7 +24,7 @@ public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
      Context mContext;
-     List<InfoBean.ResultsBean> datas;
+     List<T> datas;
 
     public  interface OnRecyclerViewItemClickListener{
          void onItemClick(View v);
@@ -38,7 +36,7 @@ public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
     }
 
-    public BaseAdapter(Context mContext, List<InfoBean.ResultsBean> datas) {
+    public BaseAdapter(Context mContext, List<T> datas) {
         this.mContext = mContext;
         this.datas = datas;
 

@@ -23,8 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.WebActivity;
-import gank.heht.com.mygankapplication.adapter.GridAdapter;
-import gank.heht.com.mygankapplication.adapter.WebAdapter;
+import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
+import gank.heht.com.mygankapplication.adapter.ListInfoAdapter;
 import gank.heht.com.mygankapplication.bean.InfoBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
@@ -37,7 +37,7 @@ public class WebFragment extends Fragment implements PullRefreshRecyclerView.Ref
     @BindView(R.id.pullrefresh_recycleview_web)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
-    WebAdapter webAdapter = null;
+    ListInfoAdapter webAdapter = null;
     private int page = 1;
     StringBuilder url = new StringBuilder("http://gank.io/api/data/");
     private List<InfoBean.ResultsBean> datas = new ArrayList<>();
@@ -69,10 +69,10 @@ public class WebFragment extends Fragment implements PullRefreshRecyclerView.Ref
     private void initView() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setLinearLayout();
-        webAdapter = new WebAdapter(getActivity(), datas);
+        webAdapter = new ListInfoAdapter(getActivity(), datas);
         pullRefreshRecyclerView.setAdapter(webAdapter);//recyclerview设置适配器
         //实现适配器自定义的点击监听
-        webAdapter.setOnRecyclerViewItemClickListener(new GridAdapter.OnRecyclerViewItemClickListener() {
+        webAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 Intent intent = new Intent(getActivity(), WebActivity.class);

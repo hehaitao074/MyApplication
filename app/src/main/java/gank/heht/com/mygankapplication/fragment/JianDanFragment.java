@@ -24,7 +24,8 @@ import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.SpaceImageDetailActivity;
 import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
-import gank.heht.com.mygankapplication.bean.InfoBean;
+import gank.heht.com.mygankapplication.adapter.JianDanGridAdapter;
+import gank.heht.com.mygankapplication.bean.JianDanBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
 
@@ -32,20 +33,20 @@ import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
  * Created by hehaitao01 on 2017/3/9.
  */
 
-public class GankFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
+public class JianDanFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
     @BindView(R.id.pullrefresh_recycleview_gank)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
-    GankGridAdapter gridAdapter = null;
+    JianDanGridAdapter gridAdapter = null;
     private int page = 1;
-    StringBuilder url = new StringBuilder("http://gank.io/api/data/");
-    private List<InfoBean.ResultsBean> datas = new ArrayList<>();
+    StringBuilder url = new StringBuilder("http://jandan.net/?oxwlxojflwblxbsapi=jandan.get_ooxx_comments&page=");
+    private List<JianDanBean.CommentsBean> datas = new ArrayList<>();
     String urlStr="";
 
     private String mTitle;
 
-    public static GankFragment getInstance(String title) {
-        GankFragment sf = new GankFragment();
+    public static JianDanFragment getInstance(String title) {
+        JianDanFragment sf = new JianDanFragment();
         sf.mTitle = title;
         return sf;
     }
@@ -75,7 +76,7 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
     private void initView() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setGridLayout(2);
-        gridAdapter = new GankGridAdapter(getActivity(), datas);
+        gridAdapter = new JianDanGridAdapter(getActivity(), datas);
         pullRefreshRecyclerView.setAdapter(gridAdapter);//recyclerview设置适配器
         //实现适配器自定义的点击监听
         gridAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
@@ -84,7 +85,7 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
                 Intent intent = new Intent(getActivity(), SpaceImageDetailActivity.class);
                 int position = pullRefreshRecyclerView.getChildAdapterPosition(view);
                 ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(datas.get(position).getUrl());
+                imgList.addAll(datas.get(position).getPics());
                 intent.putStringArrayListExtra("imgList", imgList);
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
@@ -124,8 +125,8 @@ public class GankFragment extends Fragment implements PullRefreshRecyclerView.Re
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {                    //数据解析
-                    InfoBean infoBean = GsonUtil.GsonToBean(result, InfoBean.class);
-                    datas.addAll(infoBean.getResults());
+                    JianDanBean infoBean = GsonUtil.GsonToBean(result, JianDanBean.class);
+                    datas.addAll(infoBean.getComments());
                     //让适配器刷新数据
                     gridAdapter.notifyDataSetChanged();
                 }
