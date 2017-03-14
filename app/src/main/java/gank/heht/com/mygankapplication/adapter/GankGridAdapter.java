@@ -45,7 +45,7 @@ public class GankGridAdapter extends BaseAdapter <InfoBean.ResultsBean>{
         if (holder instanceof MyViewHolder) {
             InfoBean.ResultsBean resultsBean = datas.get(position);
             //加载图片
-            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
+            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(300, 400).build();
             x.image().bind(((MyViewHolder) holder).img, resultsBean.getUrl(), imageOptions);
 
         }

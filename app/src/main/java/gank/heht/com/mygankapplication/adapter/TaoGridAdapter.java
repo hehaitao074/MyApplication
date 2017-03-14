@@ -45,7 +45,7 @@ public class TaoGridAdapter extends BaseAdapter <TaoNvListBean.ShowapiResBodyBea
         if (holder instanceof MyViewHolder) {
             TaoNvListBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean resultsBean = datas.get(position);
             //加载图片
-            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
+            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(300, 400).build();
             x.image().bind(((MyViewHolder) holder).img, resultsBean.getAvatarUrl(), imageOptions);
 
         }

@@ -45,7 +45,7 @@ public class HuaBanGridAdapter extends BaseAdapter <HuaBanMeiziInfo>{
         if (holder instanceof MyViewHolder) {
             HuaBanMeiziInfo resultsBean = datas.get(position);
             //加载图片
-            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
+            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(300, 400).build();
             x.image().bind(((MyViewHolder) holder).img, resultsBean.getThumb(), imageOptions);
 
         }

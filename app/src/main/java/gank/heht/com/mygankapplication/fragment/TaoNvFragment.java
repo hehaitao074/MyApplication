@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
-import gank.heht.com.mygankapplication.activity.SpaceImageDetailActivity;
+import gank.heht.com.mygankapplication.activity.CardImgActivity;
 import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
 import gank.heht.com.mygankapplication.adapter.TaoGridAdapter;
 import gank.heht.com.mygankapplication.bean.TaoNvListBean;
@@ -73,7 +73,7 @@ public class TaoNvFragment extends Fragment implements PullRefreshRecyclerView.R
         gridAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                Intent intent = new Intent(getActivity(), SpaceImageDetailActivity.class);
+                Intent intent = new Intent(getActivity(), CardImgActivity.class);
                 int position = pullRefreshRecyclerView.getChildAdapterPosition(view);
                 ArrayList<String> imgList = new ArrayList<>();
                 imgList.addAll(datas.get(position).getImgList());
