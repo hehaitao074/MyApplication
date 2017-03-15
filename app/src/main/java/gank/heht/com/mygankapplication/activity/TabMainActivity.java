@@ -17,10 +17,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
-import gank.heht.com.mygankapplication.fragment.AndroidFragment;
-import gank.heht.com.mygankapplication.fragment.IosFragment;
+import gank.heht.com.mygankapplication.fragment.MaNongFragment;
 import gank.heht.com.mygankapplication.fragment.MeiTuFragment;
-import gank.heht.com.mygankapplication.fragment.WebFragment;
+import gank.heht.com.mygankapplication.fragment.NewsMainFragment;
 
 public class TabMainActivity extends AppCompatActivity implements OnTabSelectListener {
 
@@ -31,7 +30,7 @@ public class TabMainActivity extends AppCompatActivity implements OnTabSelectLis
 
     private Context mContext = this;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private final String[] mTitles = {"美图", "iOS", "Android", "前端"};
+    private final String[] mTitles = {"美图", "新闻", "视频", "码农"};
     private MyPagerAdapter mAdapter;
 
     @Override
@@ -51,9 +50,9 @@ public class TabMainActivity extends AppCompatActivity implements OnTabSelectLis
 
     private void initFragment(){
         mFragments.add(new MeiTuFragment());
-        mFragments.add(new IosFragment());
-        mFragments.add(new AndroidFragment());
-        mFragments.add(new WebFragment());
+        mFragments.add(new NewsMainFragment());
+        mFragments.add(new MaNongFragment());
+        mFragments.add(new MaNongFragment());
 
     }
 

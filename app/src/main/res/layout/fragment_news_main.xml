@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tl_new_main"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="#ffffff"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        tl:tl_indicator_color="#2C97DE"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_tab_space_equal="false"
+        tl:tl_tab_width="70dp"
+        tl:tl_textSelectColor="#2C97DE"
+        tl:tl_textUnselectColor="#66000000"
+        tl:tl_textsize="16sp"
+        tl:tl_underline_color="#DDDDDD"
+        tl:tl_underline_gravity="BOTTOM"
+        tl:tl_underline_height="1dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_news_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tl_new_main" />
+
+
+</RelativeLayout>

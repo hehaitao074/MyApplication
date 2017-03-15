@@ -31,25 +31,26 @@ import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
  * Created by hehaitao01 on 2017/3/9.
  */
 
-public class IosFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
-    @BindView(R.id.pullrefresh_recycleview_ios)
+public class MaNongFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
+    @BindView(R.id.pullrefresh_recycleview_web)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
-    ListInfoAdapter iosAdapter = null;
+    ListInfoAdapter webAdapter = null;
     private int page = 1;
+    StringBuilder url = new StringBuilder("http://gank.io/api/data/all/10/");
     private List<InfoBean.ResultsBean> datas = new ArrayList<>();
-    String urlStr="http://gank.io/api/data/iOS/20/";
-
+    String urlStr="";
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        urlStr = url.toString();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_ios, null);
+        View v = inflater.inflate(R.layout.fragment_manong, null);
         ButterKnife.bind(this,v);
         initView();
         refreshData(urlStr+page);
@@ -59,10 +60,10 @@ public class IosFragment extends Fragment implements PullRefreshRecyclerView.Ref
     private void initView() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setLinearLayout();
-        iosAdapter = new ListInfoAdapter(getActivity(), datas);
-        pullRefreshRecyclerView.setAdapter(iosAdapter);//recyclerview设置适配器
+        webAdapter = new ListInfoAdapter(getActivity(), datas);
+        pullRefreshRecyclerView.setAdapter(webAdapter);//recyclerview设置适配器
         //实现适配器自定义的点击监听
-        iosAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
+        webAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 Intent intent = new Intent(getActivity(), WebActivity.class);
@@ -109,7 +110,7 @@ public class IosFragment extends Fragment implements PullRefreshRecyclerView.Ref
                     InfoBean infoBean = GsonUtil.GsonToBean(result, InfoBean.class);
                     datas.addAll(infoBean.getResults());
                     //让适配器刷新数据
-                    iosAdapter.notifyDataSetChanged();
+                    webAdapter.notifyDataSetChanged();
                 }
                 //停止swipeRefreshLayout加载动画
                 pullRefreshRecyclerView.setRefreshing(false);

@@ -43,7 +43,8 @@ public class CardImgActivity extends AppCompatActivity {
         cardAdapter = new CardAdapter(this,imgList);
         recyclerView.setAdapter(cardAdapter);
         CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(recyclerView.getAdapter(), imgList);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback); CardLayoutManager cardLayoutManager = new CardLayoutManager(recyclerView, touchHelper);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
+        CardLayoutManager cardLayoutManager = new CardLayoutManager(recyclerView, touchHelper);
         recyclerView.setLayoutManager(cardLayoutManager);
         touchHelper.attachToRecyclerView(recyclerView);
         cardCallback.setOnSwipedListener(new OnSwipeListener() {

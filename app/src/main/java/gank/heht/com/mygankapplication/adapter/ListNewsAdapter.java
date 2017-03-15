@@ -14,17 +14,17 @@ import org.xutils.x;
 import java.util.List;
 
 import gank.heht.com.mygankapplication.R;
-import gank.heht.com.mygankapplication.bean.InfoBean;
+import gank.heht.com.mygankapplication.bean.NewsInfo;
 
 
 /**
  * Created by hehaitao01 on 2017/3/7.
  */
 
-public class ListInfoAdapter extends BaseAdapter<InfoBean.ResultsBean> {
+public class ListNewsAdapter extends BaseAdapter<NewsInfo> {
 
 
-    public ListInfoAdapter(Context mContext, List<InfoBean.ResultsBean> datas) {
+    public ListNewsAdapter(Context mContext, List<NewsInfo> datas) {
         super(mContext, datas);
 
     }
@@ -33,7 +33,7 @@ public class ListInfoAdapter extends BaseAdapter<InfoBean.ResultsBean> {
     @Override
     public AndroidViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext
-        ).inflate(R.layout.layout_item_manong, parent,
+        ).inflate(R.layout.layout_item_news, parent,
                 false);//这个布局就是一个imageview用来显示图片
         AndroidViewHolder holder = new AndroidViewHolder(view);
         //给布局设置点击和长点击监听
@@ -46,16 +46,16 @@ public class ListInfoAdapter extends BaseAdapter<InfoBean.ResultsBean> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof AndroidViewHolder) {
-            InfoBean.ResultsBean resultsBean = datas.get(position);
+            NewsInfo newsInfo = datas.get(position);
             String imgUrl = "";
-            if (resultsBean.getImages() != null && resultsBean.getImages().size() > 0) {
-                imgUrl = resultsBean.getImages().get(0);
+            if (newsInfo.getImgsrc() != null) {
+                imgUrl = newsInfo.getImgsrc();
             }
             //加载图片
             ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
             x.image().bind(((AndroidViewHolder) holder).mImg, imgUrl, imageOptions);
-            ((AndroidViewHolder) holder).mTxtTltle.setText(resultsBean.getDesc());
-            ((AndroidViewHolder) holder).mTxtTWho.setText("来源: " + resultsBean.getWho());
+            ((AndroidViewHolder) holder).mTxtTltle.setText(newsInfo.getTitle());
+            ((AndroidViewHolder) holder).mTxtTWho.setText("来源: " + newsInfo.getSource());
         }
     }
 
@@ -67,9 +67,9 @@ public class ListInfoAdapter extends BaseAdapter<InfoBean.ResultsBean> {
 
         public AndroidViewHolder(View itemView) {
             super(itemView);
-            mImg = (ImageView) itemView.findViewById(R.id.img_item__list);
-            mTxtTltle = (TextView) itemView.findViewById(R.id.txt_title);
-            mTxtTWho = (TextView) itemView.findViewById(R.id.txt_who);
+            mImg = (ImageView) itemView.findViewById(R.id.news_item__list);
+            mTxtTltle = (TextView) itemView.findViewById(R.id.new_txt_title);
+            mTxtTWho = (TextView) itemView.findViewById(R.id.new_txt_who);
         }
     }
 }

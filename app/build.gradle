@@ -41,4 +41,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'me.yuqirong:cardswipelayout:1.0.0'
+    compile 'com.orhanobut:logger:1.15'
 }
