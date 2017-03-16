@@ -20,6 +20,7 @@ import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.fragment.MaNongFragment;
 import gank.heht.com.mygankapplication.fragment.MeiTuFragment;
 import gank.heht.com.mygankapplication.fragment.NewsMainFragment;
+import gank.heht.com.mygankapplication.fragment.VideoMainFragment;
 
 public class TabMainActivity extends AppCompatActivity implements OnTabSelectListener {
 
@@ -51,7 +52,7 @@ public class TabMainActivity extends AppCompatActivity implements OnTabSelectLis
     private void initFragment(){
         mFragments.add(new MeiTuFragment());
         mFragments.add(new NewsMainFragment());
-        mFragments.add(new MaNongFragment());
+        mFragments.add(new VideoMainFragment());
         mFragments.add(new MaNongFragment());
 
     }

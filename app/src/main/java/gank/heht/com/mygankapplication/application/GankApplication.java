@@ -75,6 +75,10 @@ public class GankApplication extends Application {
         QbSdk.initX5Environment(getApplicationContext(), cb);
     }
 
+    /**
+     * 初始化新闻频道
+     * @return
+     */
     public  List<NewsTypeInfo> getNewsTypeInfos(){
         if(newsTypeInfos==null){
             newsTypeInfos = NewsUtils.getNewsTypesFromAssets(getApplicationContext());

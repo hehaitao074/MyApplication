@@ -23,8 +23,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SpaceImageDetailActivity" />
-        <activity android:name=".activity.WebActivity"></activity>
-        <activity android:name=".activity.CardImgActivity"></activity>
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.CardImgActivity" />
+        <activity
+            android:name=".activity.IjkPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
