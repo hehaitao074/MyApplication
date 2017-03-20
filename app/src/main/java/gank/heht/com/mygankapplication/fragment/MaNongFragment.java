@@ -2,11 +2,8 @@ package gank.heht.com.mygankapplication.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.blankj.utilcode.utils.LogUtils;
 
@@ -17,23 +14,17 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.WebActivity;
 import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
 import gank.heht.com.mygankapplication.adapter.ListInfoAdapter;
 import gank.heht.com.mygankapplication.bean.InfoBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
-import gank.heht.com.mygankapplication.view.PullRefreshRecyclerView;
 
 /**
  * Created by hehaitao01 on 2017/3/9.
  */
 
-public class MaNongFragment extends Fragment implements PullRefreshRecyclerView.RefreshLoadMoreListener {
-    @BindView(R.id.pullrefresh_recycleview_web)
-    PullRefreshRecyclerView pullRefreshRecyclerView;
+public class MaNongFragment extends BaseNewsFragment{
 
     ListInfoAdapter webAdapter = null;
     private int page = 1;
@@ -49,15 +40,12 @@ public class MaNongFragment extends Fragment implements PullRefreshRecyclerView.
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_manong, null);
-        ButterKnife.bind(this,v);
-        initView();
+    protected void updateViews(boolean isRefresh) {
         refreshData(urlStr+page);
-        return v;
     }
 
-    private void initView() {
+    @Override
+    protected void initViews() {
         pullRefreshRecyclerView.setRefreshLoadMoreListener(this);
         pullRefreshRecyclerView.setLinearLayout();
         webAdapter = new ListInfoAdapter(getActivity(), datas);

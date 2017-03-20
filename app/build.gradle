@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt' //添加这行
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -42,6 +47,8 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.github.Rukey7:IjkPlayerView:+'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
+    compile 'com.sackcentury:shinebutton:+'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
 }

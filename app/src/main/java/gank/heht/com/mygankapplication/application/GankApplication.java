@@ -10,9 +10,7 @@ import org.xutils.BuildConfig;
 import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
-import java.util.List;
-
-import gank.heht.com.mygankapplication.bean.NewsTypeInfo;
+import gank.heht.com.mygankapplication.bean.ChannelInfo;
 import gank.heht.com.mygankapplication.utils.NewsUtils;
 
 /**
@@ -21,7 +19,7 @@ import gank.heht.com.mygankapplication.utils.NewsUtils;
 
 public class GankApplication extends Application {
 
-    private static  List<NewsTypeInfo> newsTypeInfos = null;
+    private static  ChannelInfo channelInfo = null;
     private static GankApplication single=null;
     @Override
     public void onCreate() {
@@ -79,11 +77,11 @@ public class GankApplication extends Application {
      * 初始化新闻频道
      * @return
      */
-    public  List<NewsTypeInfo> getNewsTypeInfos(){
-        if(newsTypeInfos==null){
-            newsTypeInfos = NewsUtils.getNewsTypesFromAssets(getApplicationContext());
+    public  ChannelInfo getNewsTypeInfos(){
+        if(channelInfo==null){
+            channelInfo = NewsUtils.getNewsTypesFromAssets(getApplicationContext());
         }
-        return  newsTypeInfos;
+        return  channelInfo;
     }
 
 }

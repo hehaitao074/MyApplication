@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -45,6 +46,9 @@ public class SpaceImageDetailActivity extends AppCompatActivity implements ViewP
     TextView hint;
     @BindView(R.id.save)
     TextView save;
+    @BindView(R.id.shine_button_star)
+    ShineButton shineButton;
+
     private  List<String> imgList = new ArrayList<>();
 
     private String saveUrl  ="";
@@ -88,6 +92,10 @@ public class SpaceImageDetailActivity extends AppCompatActivity implements ViewP
     public void onPageSelected(int position) {
         saveUrl = imgList.get(position);
         hint.setText(position + 1 + "/" + imgList.size());
+    }
+    @OnClick(R.id.shine_button_star)
+    public void shine(View v){
+        ToastUtils.showLongToast("喜欢");
     }
     @OnClick(R.id.save)
     public void save(final View view){

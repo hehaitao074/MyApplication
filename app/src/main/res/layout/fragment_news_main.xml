@@ -12,19 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/txt_channel"
         android:background="#ffffff"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         tl:tl_indicator_color="#2C97DE"
         tl:tl_indicator_gravity="BOTTOM"
         tl:tl_tab_space_equal="false"
-        tl:tl_tab_width="70dp"
+        tl:tl_tab_width="62dp"
         tl:tl_textSelectColor="#2C97DE"
         tl:tl_textUnselectColor="#66000000"
         tl:tl_textsize="16sp"
         tl:tl_underline_color="#DDDDDD"
         tl:tl_underline_gravity="BOTTOM"
         tl:tl_underline_height="1dp" />
+    <TextView
+        android:id="@+id/txt_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/red_500"
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:text="频道" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_news_main"

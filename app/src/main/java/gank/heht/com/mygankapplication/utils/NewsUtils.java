@@ -2,11 +2,10 @@ package gank.heht.com.mygankapplication.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
-import java.util.List;
-
+import gank.heht.com.mygankapplication.bean.ChannelInfo;
 import gank.heht.com.mygankapplication.bean.NewsInfo;
-import gank.heht.com.mygankapplication.bean.NewsTypeInfo;
 
 
 /**
@@ -80,9 +79,12 @@ public final class NewsUtils {
      * @param context
      * @return
      */
-    public static List<NewsTypeInfo> getNewsTypesFromAssets(Context context){
-        String jsonStr = AssetsHelper.readData(context,"NewsChannel");
-        List<NewsTypeInfo> newsTypeInfos = GsonUtil.jsonToList(jsonStr,NewsTypeInfo.class);
-        return newsTypeInfos;
+    public static ChannelInfo getNewsTypesFromAssets(Context context){
+       String channelJson =  FileHelper.readData(context,"NewsChannel");
+        if(TextUtils.isEmpty(channelJson)){
+            channelJson = FileHelper.readAssetData(context,"NewsChannel");
+        }
+        ChannelInfo  channelInfo= GsonUtil.GsonToBean(channelJson,ChannelInfo.class);
+        return channelInfo;
     }
 }

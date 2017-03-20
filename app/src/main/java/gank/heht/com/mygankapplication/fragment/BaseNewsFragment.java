@@ -1,5 +1,6 @@
 package gank.heht.com.mygankapplication.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,22 +20,39 @@ public abstract  class BaseNewsFragment extends Fragment implements PullRefreshR
     @BindView(R.id.pullrefresh_recycleview_newslist)
     PullRefreshRecyclerView pullRefreshRecyclerView;
 
+    //根部view
+    private View rootView;
+    protected Context context;
+    private Boolean hasInitData = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_newlist, null);
-        ButterKnife.bind(this,v);
-        initSwipeRefresh();
-        initViews();
-        updateViews(true);
-        return v;
+        if(rootView==null){
+            rootView = inflater.inflate(R.layout.fragment_newlist, null);//判断是否加载过view
+        }
+        ButterKnife.bind(this,rootView);
+        return rootView;
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //判断是否加载过数据
+        if (!hasInitData) {
+            initSwipeRefresh();
+            initViews();
+            updateViews(true);
+            hasInitData = true;
+        }
+    }
+
 
     /**
      * 初始化下拉刷新

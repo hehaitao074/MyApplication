@@ -75,4 +75,13 @@ public class NewsTypeInfo implements Parcelable {
             return new NewsTypeInfo[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "NewsTypeInfo{" +
+                "name='" + name + '\'' +
+                ", typeId='" + typeId + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }
