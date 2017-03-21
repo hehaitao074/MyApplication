@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.blankj.utilcode.utils.LogUtils;
 import com.google.gson.JsonParser;
 import com.orhanobut.logger.Logger;
 
@@ -130,17 +129,18 @@ public class VideoListFragment extends BaseNewsFragment{
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                LogUtils.d("hht", ex.getMessage());
+                Logger.t("debug").d(ex.getMessage());
+                pullRefreshRecyclerView.setRefreshing(false);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-
+                pullRefreshRecyclerView.setRefreshing(false);
             }
 
             @Override
             public void onFinished() {
-
+                pullRefreshRecyclerView.setRefreshing(false);
             }
         });
     }

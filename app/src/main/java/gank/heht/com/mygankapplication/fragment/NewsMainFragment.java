@@ -50,6 +50,7 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener{
     private  String[] mChannelTitles = null;
     private MyPagerAdapter mAdapter;
 
+
     public NewsMainFragment() {
     }
 

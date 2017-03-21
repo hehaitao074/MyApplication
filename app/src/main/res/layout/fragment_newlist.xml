@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-
     <gank.heht.com.mygankapplication.view.PullRefreshRecyclerView
         android:id="@+id/pullrefresh_recycleview_newslist"
         android:layout_width="match_parent"

@@ -32,32 +32,45 @@ public class ListNewsAdapter extends BaseAdapter<NewsInfo> {
 
     @Override
     public AndroidViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext
-        ).inflate(R.layout.layout_item_news, parent,
-                false);//这个布局就是一个imageview用来显示图片
-        AndroidViewHolder holder = new AndroidViewHolder(view);
-        //给布局设置点击和长点击监听
-        view.setOnClickListener(this);
-        view.setOnLongClickListener(this);
-        return holder;
+        if (viewType == TYPE_FOOTER) {
+            return new AndroidViewHolder(VIEW_FOOTER);
+        } else if (viewType == TYPE_HEADER) {
+            return new AndroidViewHolder(VIEW_HEADER);
+        } else {
+            View view = LayoutInflater.from(mContext
+            ).inflate(R.layout.layout_item_news, parent,
+                    false);//这个布局就是一个imageview用来显示图片
+            AndroidViewHolder holder = new AndroidViewHolder(view);
+            //给布局设置点击和长点击监听
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+            return holder;
+        }
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        if (holder instanceof AndroidViewHolder) {
-            NewsInfo newsInfo = datas.get(position);
-            String imgUrl = "";
-            if (newsInfo.getImgsrc() != null) {
-                imgUrl = newsInfo.getImgsrc();
+        if (!isHeaderView(position) && !isFooterView(position)) {
+            if (haveHeaderView()) position--;
+            if (holder instanceof AndroidViewHolder) {
+                NewsInfo newsInfo = datas.get(position);
+                String imgUrl = "";
+                if (newsInfo.getImgsrc() != null) {
+                    imgUrl = newsInfo.getImgsrc();
+                }
+                //加载图片
+                ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
+                x.image().bind(((AndroidViewHolder) holder).mImg, imgUrl, imageOptions);
+                ((AndroidViewHolder) holder).mTxtTltle.setText(newsInfo.getTitle());
+                ((AndroidViewHolder) holder).mTxtTWho.setText("来源: " + newsInfo.getSource());
             }
-            //加载图片
-            ImageOptions imageOptions = new ImageOptions.Builder().setRadius(2).setUseMemCache(true).setFadeIn(true).setSize(120, 160).build();
-            x.image().bind(((AndroidViewHolder) holder).mImg, imgUrl, imageOptions);
-            ((AndroidViewHolder) holder).mTxtTltle.setText(newsInfo.getTitle());
-            ((AndroidViewHolder) holder).mTxtTWho.setText("来源: " + newsInfo.getSource());
         }
     }
+
+
+
+
 
 
     class AndroidViewHolder extends RecyclerView.ViewHolder {

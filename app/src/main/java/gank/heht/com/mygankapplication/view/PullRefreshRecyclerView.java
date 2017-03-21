@@ -333,4 +333,6 @@ public class PullRefreshRecyclerView extends LinearLayout {
        return  mRecyclerView.getChildAdapterPosition(child);
     }
 
+
+
 }

@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.ConvertUtils;
 import com.google.gson.JsonParser;
 import com.orhanobut.logger.Logger;
+import com.panxw.android.imageindicator.AutoPlayManager;
+import com.panxw.android.imageindicator.ImageIndicatorView;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -21,6 +24,7 @@ import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
 import gank.heht.com.mygankapplication.adapter.ListNewsAdapter;
 import gank.heht.com.mygankapplication.bean.NewsInfo;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
+import gank.heht.com.mygankapplication.view.NetworkImageIndicatorView;
 
 /**
  * Created by hehaitao01 on 2017/3/9.
@@ -35,6 +39,10 @@ public class NewsListFragment extends BaseNewsFragment{
     private int page = 1;
     private List<NewsInfo> datas = new ArrayList<>();
     String urlStr="";
+    private static  final  String HEADLINE = "T1348647909107";
+    AutoPlayManager autoBrocastManager;
+
+    NetworkImageIndicatorView networkImageIndicatorView;
 
     public static NewsListFragment newInstance(String newsId,String newsUrl) {
         NewsListFragment fragment = new NewsListFragment();
@@ -104,7 +112,7 @@ public class NewsListFragment extends BaseNewsFragment{
      * 刷新数据
      * @param url
      */
-    private void refreshData(String url) {
+    private void refreshData(final String url) {
         //设置swipeRefreshLayout为刷新状态
         pullRefreshRecyclerView.setRefreshing(true);
         RequestParams params = new RequestParams(url);
@@ -119,6 +127,15 @@ public class NewsListFragment extends BaseNewsFragment{
                     datas.addAll(infoBeans);
                     //让适配器刷新数据
                     androidAdapter.notifyDataSetChanged();
+                    //添加头部头图轮播
+                    if(page==1&&null!=infoBeans.get(0).getAds()&&infoBeans.get(0).getAds().size()>=0){
+                        List<String> urlList = new ArrayList<String>();
+                        for(NewsInfo.AdData adData: infoBeans.get(0).getAds()){
+                            urlList.add(adData.getImgsrc());
+                        }
+                        //初始化轮播头图
+                        initImageIndicatorView(urlList);
+                    }
                 }
                 //停止swipeRefreshLayout加载动画
                 pullRefreshRecyclerView.setRefreshing(false);
@@ -126,18 +143,39 @@ public class NewsListFragment extends BaseNewsFragment{
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                LogUtils.d("hht", ex.getMessage());
+                Logger.t("debug").d(ex.getMessage());
+                pullRefreshRecyclerView.setRefreshing(false);
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-
+                pullRefreshRecyclerView.setRefreshing(false);
             }
 
             @Override
             public void onFinished() {
+                pullRefreshRecyclerView.setRefreshing(false);
 
             }
         });
+    }
+
+    /**
+     * 轮播图初始化
+     * @param urlList
+     */
+    private void initImageIndicatorView(List<String> urlList) {
+        networkImageIndicatorView = new NetworkImageIndicatorView(getActivity());
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(140));
+        networkImageIndicatorView.setLayoutParams(params);
+        networkImageIndicatorView.setIndicateStyle(ImageIndicatorView.INDICATE_USERGUIDE_STYLE);
+        autoBrocastManager =  new AutoPlayManager(networkImageIndicatorView);
+        autoBrocastManager.setBroadcastEnable(true);
+        autoBrocastManager.setBroadCastTimes(5);//loop times
+        autoBrocastManager.setBroadcastTimeIntevel(3 * 1000, 3 * 1000);//set first play time and interval
+        androidAdapter.addHeaderView(networkImageIndicatorView);
+        networkImageIndicatorView.setupLayoutByImageUrl(urlList);
+        networkImageIndicatorView.show();
+        autoBrocastManager.loop();
     }
 }
