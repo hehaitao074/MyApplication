@@ -10,12 +10,15 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.adapter.ChannelAdapter;
 import gank.heht.com.mygankapplication.application.GankApplication;
 import gank.heht.com.mygankapplication.bean.ChannelInfo;
+import gank.heht.com.mygankapplication.entity.MessageEvent;
 import gank.heht.com.mygankapplication.utils.FileHelper;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.utils.ItemDragHelperCallback;
@@ -31,7 +34,6 @@ public class ChannelActivity extends AppCompatActivity implements ChannelAdapter
      RecyclerView mRecy;
 
     private ChannelInfo channelInfo;
-    private OnChannelChangeListenner onChannelChangeListenner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +78,9 @@ public class ChannelActivity extends AppCompatActivity implements ChannelAdapter
         boolean isOk = FileHelper.writeStringData(this,"NewsChannel",channelJson);
         if(isOk){
             ToastUtils.showLongToast("保存成功");
+            EventBus.getDefault().post(new MessageEvent(isOk));
         }
 
     }
-    public interface OnChannelChangeListenner{
-        void onChannelChange();
-    }
 
-    public void setOnChannelChangeListenner(OnChannelChangeListenner onChannelChangeListenner) {
-        this.onChannelChangeListenner = onChannelChangeListenner;
-    }
 }

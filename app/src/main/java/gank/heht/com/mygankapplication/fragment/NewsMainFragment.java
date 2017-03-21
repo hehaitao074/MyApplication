@@ -16,6 +16,9 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.orhanobut.logger.Logger;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +29,13 @@ import gank.heht.com.mygankapplication.R;
 import gank.heht.com.mygankapplication.activity.ChannelActivity;
 import gank.heht.com.mygankapplication.application.GankApplication;
 import gank.heht.com.mygankapplication.bean.NewsTypeInfo;
+import gank.heht.com.mygankapplication.entity.MessageEvent;
 
 /**
  * Created by hehaitao01 on 2017/3/9.
  */
 
-public class NewsMainFragment extends Fragment implements OnTabSelectListener,ChannelActivity.OnChannelChangeListenner{
+public class NewsMainFragment extends Fragment implements OnTabSelectListener{
 
 
     @BindView(R.id.vp_news_main)
@@ -46,10 +50,16 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener,Ch
     private  String[] mChannelTitles = null;
     private MyPagerAdapter mAdapter;
 
+    public NewsMainFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+
         initFragment();
     }
 
@@ -61,6 +71,7 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener,Ch
         initView();
         return v;
     }
+
 
     private void initView(){
         mAdapter = new MyPagerAdapter(getChildFragmentManager());//这地方使用getChildFragmentManager()方法,管理fragment中的fragment
@@ -81,6 +92,7 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener,Ch
             mNewsFragments.add(NewsListFragment.newInstance(newsTypeInfo.getTypeId(),newsTypeInfo.getUrl()));
         }
 
+
     }
 
 
@@ -99,6 +111,12 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener,Ch
     @Override
     public void onTabReselect(int position) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -122,10 +140,16 @@ public class NewsMainFragment extends Fragment implements OnTabSelectListener,Ch
         }
     }
 
-    @Override
-    public void onChannelChange() {
-        initFragment();
-        mAdapter.notifyDataSetChanged();
-        tabLayout_meitu.notifyDataSetChanged();
+
+    @Subscribe
+    public void onMessage(MessageEvent messageEvent){
+        if(messageEvent.isChange){
+            mNewsFragments.clear();
+            initFragment();
+            mAdapter.notifyDataSetChanged();
+            tabLayout_meitu.setViewPager(viewPager,mChannelTitles);
+        }
+
     }
+
 }

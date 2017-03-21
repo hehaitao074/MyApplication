@@ -90,6 +90,8 @@ public class VideoListFragment extends BaseNewsFragment{
 
     @Override
     public void onRefresh() {
+        page=1;
+        datas.clear();
         urlStr = MessageFormat.format(mNewsUrl,mNewsId,page);
         refreshData(urlStr);
     }

@@ -50,5 +50,6 @@ dependencies {
     compile 'com.sackcentury:shinebutton:+'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
 
 }
