@@ -9,8 +9,7 @@ import gank.heht.com.mygankapplication.bean.NewsInfo;
 
 
 /**
- * Created by Rukey7 on 2016/8/22.
- * 工具类
+ *  工具类
  */
 public final class NewsUtils {
 

@@ -92,4 +92,5 @@ public abstract  class BaseNewsFragment extends Fragment implements PullRefreshR
     public void onLoadMore() {
 
     }
+
 }

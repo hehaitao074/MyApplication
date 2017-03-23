@@ -1,7 +1,6 @@
 package gank.heht.com.mygankapplication.utils;
 
 /**
- * Created by long on 2016/8/31.
  * 新闻常量
  */
 public final class NewsConst {

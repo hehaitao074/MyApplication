@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 
 import com.blankj.utilcode.utils.ConvertUtils;
 import com.google.gson.JsonParser;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.orhanobut.logger.Logger;
 import com.panxw.android.imageindicator.AutoPlayManager;
 import com.panxw.android.imageindicator.ImageIndicatorView;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ import gank.heht.com.mygankapplication.adapter.ListNewsAdapter;
 import gank.heht.com.mygankapplication.bean.NewsInfo;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
 import gank.heht.com.mygankapplication.view.NetworkImageIndicatorView;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by hehaitao01 on 2017/3/9.
@@ -115,49 +115,60 @@ public class NewsListFragment extends BaseNewsFragment{
     private void refreshData(final String url) {
         //设置swipeRefreshLayout为刷新状态
         pullRefreshRecyclerView.setRefreshing(true);
-        RequestParams params = new RequestParams(url);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                if (!TextUtils.isEmpty(result)) {
-                    Logger.t("debug").d(result);
-                    String jsonList = new JsonParser().parse(result).getAsJsonObject().getAsJsonArray(""+mNewsId).toString();
-                    //数据解析
-                    List<NewsInfo> infoBeans = GsonUtil.jsonToList(jsonList,NewsInfo.class);
-                    datas.addAll(infoBeans);
-                    //让适配器刷新数据
-                    androidAdapter.notifyDataSetChanged();
-                    //添加头部头图轮播
-                    if(page==1&&null!=infoBeans.get(0).getAds()&&infoBeans.get(0).getAds().size()>=0){
-                        List<String> urlList = new ArrayList<String>();
-                        for(NewsInfo.AdData adData: infoBeans.get(0).getAds()){
-                            urlList.add(adData.getImgsrc());
+        OkGo.get(url)    // 请求方式和请求url, get请求不需要拼接参数，支持get，post，put，delete，head，options请求
+                .tag(this)               // 请求的 tag, 主要用于取消对应的请求
+                .cacheKey(url)    // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        if (!TextUtils.isEmpty(s)) {
+                            Logger.t("debug").d(s);
+                            String jsonList = new JsonParser().parse(s).getAsJsonObject().getAsJsonArray(""+mNewsId).toString();
+                            //数据解析
+                            List<NewsInfo> infoBeans = GsonUtil.jsonToList(jsonList,NewsInfo.class);
+                            datas.addAll(infoBeans);
+                            //让适配器刷新数据
+                            androidAdapter.notifyDataSetChanged();
+                            //添加头部头图轮播
+                            if(page==1&&null!=infoBeans.get(0).getAds()&&infoBeans.get(0).getAds().size()>=0){
+                                List<String> urlList = new ArrayList<String>();
+                                for(NewsInfo.AdData adData: infoBeans.get(0).getAds()){
+                                    urlList.add(adData.getImgsrc());
+                                }
+                                //初始化轮播头图
+                                initImageIndicatorView(urlList);
+                            }
                         }
-                        //初始化轮播头图
-                        initImageIndicatorView(urlList);
+                        //停止swipeRefreshLayout加载动画
+                        pullRefreshRecyclerView.setRefreshing(false);
                     }
-                }
-                //停止swipeRefreshLayout加载动画
-                pullRefreshRecyclerView.setRefreshing(false);
-            }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Logger.t("debug").d(ex.getMessage());
-                pullRefreshRecyclerView.setRefreshing(false);
-            }
+                    @Override
+                    public void onCacheSuccess(String s, Call call) {
+                        super.onCacheSuccess(s, call);
+                        if (!TextUtils.isEmpty(s)) {
+                            Logger.t("debug").d(s);
+                            String jsonList = new JsonParser().parse(s).getAsJsonObject().getAsJsonArray(""+mNewsId).toString();
+                            //数据解析
+                            List<NewsInfo> infoBeans = GsonUtil.jsonToList(jsonList,NewsInfo.class);
+                            datas.addAll(infoBeans);
+                            //让适配器刷新数据
+                            androidAdapter.notifyDataSetChanged();
+                            //添加头部头图轮播
+                            if(page==1&&null!=infoBeans.get(0).getAds()&&infoBeans.get(0).getAds().size()>=0){
+                                List<String> urlList = new ArrayList<String>();
+                                for(NewsInfo.AdData adData: infoBeans.get(0).getAds()){
+                                    urlList.add(adData.getImgsrc());
+                                }
+                                //初始化轮播头图
+                                initImageIndicatorView(urlList);
+                            }
+                        }
+                        //停止swipeRefreshLayout加载动画
+                        pullRefreshRecyclerView.setRefreshing(false);
+                    }
+                });
 
-            @Override
-            public void onCancelled(CancelledException cex) {
-                pullRefreshRecyclerView.setRefreshing(false);
-            }
-
-            @Override
-            public void onFinished() {
-                pullRefreshRecyclerView.setRefreshing(false);
-
-            }
-        });
     }
 
     /**
@@ -177,5 +188,11 @@ public class NewsListFragment extends BaseNewsFragment{
         networkImageIndicatorView.setupLayoutByImageUrl(urlList);
         networkImageIndicatorView.show();
         autoBrocastManager.loop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
     }
 }

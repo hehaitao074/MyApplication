@@ -92,3 +92,7 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+#okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}

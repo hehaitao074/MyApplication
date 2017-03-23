@@ -6,10 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.utils.LogUtils;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,8 @@ import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
 import gank.heht.com.mygankapplication.adapter.ListInfoAdapter;
 import gank.heht.com.mygankapplication.bean.InfoBean;
 import gank.heht.com.mygankapplication.utils.GsonUtil;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by hehaitao01 on 2017/3/9.
@@ -90,34 +90,41 @@ public class MaNongFragment extends BaseNewsFragment{
     private void refreshData(String url) {
         //设置swipeRefreshLayout为刷新状态
         pullRefreshRecyclerView.setRefreshing(true);
-        RequestParams params = new RequestParams(url);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                if (!TextUtils.isEmpty(result)) {                    //数据解析
-                    InfoBean infoBean = GsonUtil.GsonToBean(result, InfoBean.class);
-                    datas.addAll(infoBean.getResults());
-                    //让适配器刷新数据
-                    webAdapter.notifyDataSetChanged();
-                }
-                //停止swipeRefreshLayout加载动画
-                pullRefreshRecyclerView.setRefreshing(false);
-            }
+        OkGo.get(url)    // 请求方式和请求url, get请求不需要拼接参数，支持get，post，put，delete，head，options请求
+                .tag(this)               // 请求的 tag, 主要用于取消对应的请求
+                .cacheKey(url)    // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        if (!TextUtils.isEmpty(s)) {                    //数据解析
+                            InfoBean infoBean = GsonUtil.GsonToBean(s, InfoBean.class);
+                            datas.addAll(infoBean.getResults());
+                            //让适配器刷新数据
+                            webAdapter.notifyDataSetChanged();
+                        }
+                        //停止swipeRefreshLayout加载动画
+                        pullRefreshRecyclerView.setRefreshing(false);
+                    }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                LogUtils.d("hht", ex.getMessage());
-            }
+                    @Override
+                    public void onCacheSuccess(String s, Call call) {
+                        super.onCacheSuccess(s, call);
+                        if (!TextUtils.isEmpty(s)) {                    //数据解析
+                            InfoBean infoBean = GsonUtil.GsonToBean(s, InfoBean.class);
+                            datas.addAll(infoBean.getResults());
+                            //让适配器刷新数据
+                            webAdapter.notifyDataSetChanged();
+                        }
+                        //停止swipeRefreshLayout加载动画
+                        pullRefreshRecyclerView.setRefreshing(false);
+                    }
+                });
 
-            @Override
-            public void onCancelled(CancelledException cex) {
+    }
 
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(this);
     }
 }
