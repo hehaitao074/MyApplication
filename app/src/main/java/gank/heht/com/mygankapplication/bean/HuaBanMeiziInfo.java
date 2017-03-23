@@ -1,8 +1,12 @@
 package gank.heht.com.mygankapplication.bean;
 
-public class HuaBanMeiziInfo
+import java.io.Serializable;
+
+public class HuaBanMeiziInfo implements Serializable
 {
 
+
+    private static final long serialVersionUID = 7605292322439480858L;
     private String thumb;
 
     private String title;

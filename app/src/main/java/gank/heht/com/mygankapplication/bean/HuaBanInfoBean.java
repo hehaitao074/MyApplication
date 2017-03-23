@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +15,8 @@ import java.util.Map;
  * Created by hehaitao01 on 2017/3/13.
  */
 
-public class HuaBanInfoBean {
+public class HuaBanInfoBean  implements Serializable{
+    private static final long serialVersionUID = -4027409272054727007L;
     @SerializedName("showapi_res_code")
     public int code;
 
@@ -25,6 +27,7 @@ public class HuaBanInfoBean {
     public JsonObject list;
 
     public List<HuaBanMeiziInfo> infos;
+
 
 
     /**
