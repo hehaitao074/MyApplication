@@ -2,7 +2,11 @@
 
 buildscript {
     repositories {
+        maven {
+            url "http://maven.aliyun.com/nexus/content/repositories/central"
+        }
         jcenter()
+        mavenCentral()
 
     }
     dependencies {
@@ -16,11 +20,26 @@ buildscript {
 
 allprojects {
     repositories {
+        // maven库
+        // 先从阿里云maven下载jar若没有找到，则在后面的仓库中寻找
+        //仓库优先级从上到下顺序排列
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/central" }
+
+        maven { url "https://jitpack.io" }
+
         jcenter()
-        maven { url 'https://jitpack.io' }
+
+        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+//关闭项目变更后的lint检查
+tasks.whenTaskAdded { task ->
+    if (task.name == "lint") {
+        task.enabled = false
+    }
 }

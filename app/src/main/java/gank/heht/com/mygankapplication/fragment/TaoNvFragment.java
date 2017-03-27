@@ -12,7 +12,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import gank.heht.com.mygankapplication.activity.CardImgActivity;
+import gank.heht.com.mygankapplication.activity.FanSpaceImageDetailActivity;
 import gank.heht.com.mygankapplication.adapter.GankGridAdapter;
 import gank.heht.com.mygankapplication.adapter.TaoGridAdapter;
 import gank.heht.com.mygankapplication.bean.TaoNvListBean;
@@ -54,7 +54,7 @@ public class TaoNvFragment extends BaseNewsFragment {
         gridAdapter.setOnRecyclerViewItemClickListener(new GankGridAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                Intent intent = new Intent(getActivity(), CardImgActivity.class);
+                Intent intent = new Intent(getActivity(), FanSpaceImageDetailActivity.class);
                 int position = pullRefreshRecyclerView.getChildAdapterPosition(view);
                 ArrayList<String> imgList = new ArrayList<>();
                 imgList.addAll(datas.get(position).getImgList());

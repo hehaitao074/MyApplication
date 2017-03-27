@@ -3,6 +3,7 @@ package gank.heht.com.mygankapplication.application;
 import android.app.Application;
 
 import com.blankj.utilcode.utils.Utils;
+import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.tencent.smtt.sdk.QbSdk;
@@ -26,6 +27,7 @@ public class GankApplication extends Application {
 
     private static  ChannelInfo channelInfo = null;
     private static GankApplication single=null;
+    private static final boolean DEBUG = true;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,6 +37,10 @@ public class GankApplication extends Application {
         Utils.init(getApplicationContext());//初始化开源工具类
         initTbs();
         initOkGo();
+        if(DEBUG){
+            initStetho();//开启调试影响性能
+        }
+
     }
     public GankApplication() {}
 
@@ -119,6 +125,13 @@ public class GankApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void initStetho(){
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
     }
 
 }

@@ -1,11 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt' //添加这行
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -59,6 +55,8 @@ dependencies {
     compile 'com.lzy.net:okgo:+'        //基于OkHttp网络框架可以单独使用，不需要依赖下方的扩展包
     //compile 'com.lzy.net:okrx:+'        //RxJava扩展支持，根据需要添加
    // compile 'com.lzy.net:okserver:+'    //下载管理和上传管理扩展，根据需要添加
+    compile 'com.facebook.stetho:stetho:1.1.1'//facebook出品在chrome调试Android，在Chrome浏览器中输入 chrome://inspect/#devices
+    compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
 
 
 }

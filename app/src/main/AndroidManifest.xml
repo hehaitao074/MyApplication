@@ -29,6 +29,7 @@
             android:name=".activity.IjkPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"></activity>
         <activity android:name=".activity.ChannelActivity" />
+        <activity android:name=".activity.FanSpaceImageDetailActivity" />
     </application>
 
 </manifest>
